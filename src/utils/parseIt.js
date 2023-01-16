@@ -5,7 +5,13 @@ var logger = require("tracer").colorConsole();
 var parser = {
   parseToJSON: function(path, type, cbAfterParse) {
     const objParseBoy = new ParseBoy();
-    if (type === "url") {
+    if (type.includes("/")) {
+      processing.runBuffer(path, type, (preppedFile, error) => {
+        return objParseBoy.parseFile(preppedFile, parsedResume =>
+          cbAfterParse(parsedResume, error)
+        );
+      });
+    } else if (type === "url") {
       processing.runUrl(path, (preppedFile, error) => {
         return objParseBoy.parseUrl(preppedFile, parsedResume =>
           cbAfterParse(parsedResume, error)

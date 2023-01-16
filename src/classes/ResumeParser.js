@@ -1,12 +1,14 @@
 const parseIt = require("../utils/parseIt");
 
 class ResumeParser {
-  constructor(filePath) {
+  constructor(filePath, mimeType) {
     if (!filePath) {
       throw new Error("A file path or URL is required");
     }
-    if (filePath.startsWith("http") || filePath.startsWith("https")) {
+    if (typeof filePath === "string" && (filePath.startsWith("http") || filePath.startsWith("https"))) {
       this.type = "url";
+    } else if (typeof filePath === "object") {
+      this.type = mimeType;
     } else {
       this.type = "file";
     }

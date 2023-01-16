@@ -8,6 +8,7 @@ const path = require("path"),
 
 module.exports.runFile = processFile;
 module.exports.runUrl = processUrl;
+module.exports.runBuffer = processBuffer;
 module.exports.PreparedFile = PreparedFile;
 /**
  *
@@ -30,6 +31,20 @@ function processFile(file, cbAfterProcessing) {
 
 function processUrl(url, cbAfterProcessing) {
   extractTextUrl(url, function(data, error) {
+    if (_.isFunction(cbAfterProcessing)) {
+      if (error) {
+        return cbAfterProcessing(null, error);
+      }
+      cbAfterProcessing(data);
+    } else {
+      logger.error("cbAfterProcessing should be a function");
+      cbAfterProcessing(null, "cbAfterProcessing should be a function");
+    }
+  });
+}
+
+function processBuffer(buffer, mimeType, cbAfterProcessing) {
+  extractTextBuffer(buffer, mimeType, function(data, error) {
     if (_.isFunction(cbAfterProcessing)) {
       if (error) {
         return cbAfterProcessing(null, error);
@@ -104,6 +119,24 @@ function extractTextUrl(url, cbAfterExtract) {
       return cbAfterExtract(null, "cbAfterExtract should be a function");
     }
   });
+}
+
+function extractTextBuffer(buffer, mimeType, cbAfterExtract) {
+  logger.trace(buffer);
+  textract.fromBufferWithMime(mimeType, buffer, function(err, data) {
+    if (err) {
+      logger.error(err);
+      return cbAfterExtract(null, err);
+    }
+    if (_.isFunction(cbAfterExtract)) {
+      data = cleanTextByRows(data);
+      var File = new PreparedFile(file, data.replace(/^\s/gm, ""));
+      cbAfterExtract(File);
+    } else {
+      logger.error("cbAfterExtract should be a function");
+      return cbAfterExtract(null, "cbAfterExtract should be a function");
+    }
+  })
 }
 
 /**
