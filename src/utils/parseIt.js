@@ -7,7 +7,7 @@ var parser = {
     const objParseBoy = new ParseBoy();
     if (type.includes("/")) {
       processing.runBuffer(path, type, (preppedFile, error) => {
-        return objParseBoy.parseFile(preppedFile, parsedResume =>
+        return objParseBoy.parseUrl(preppedFile, parsedResume =>
           cbAfterParse(parsedResume, error)
         );
       });
