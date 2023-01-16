@@ -1,18 +1,18 @@
 {
-  "name": "simple-resume-parser",
+  "name": "resume-parser",
   "version": "1.1.8",
   "description": "A NodeJS library to parse pdf, txt, doc and docx files to JSON and CSV",
   "main": "src/index.js",
-  "author": "Kervin Vasquez",
+  "author": "Umair Nadeem",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kervin5/simple-resume-parser.git"
+    "url": "https://github.com/umairnadeem/resume-parser.git"
   },
   "bugs": {
-    "url": "https://github.com/kervin5/simple-resume-parser/issues"
+    "url": "https://github.com/umairnadeem/resume-parser.git/issues"
   },
-  "homepage": "https://github.com/kervin5/simple-resume-parser",
+  "homepage": "https://github.com/umairnadeem/resume-parser.git",
   "keywords": [
     "resume",
     "cv",
